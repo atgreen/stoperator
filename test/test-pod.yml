@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: stoperator-pod
+  name: stoperator-pod
+spec:
+  containers:
+  - name: stoperator
+    image: localhost/stoperator:latest
+    ports:
+    - containerPort: 8080
+      hostPort: 8080
+      protocol: TCP
+    - containerPort: 4005
+      hostPort: 4005
+      protocol: TCP
+    - containerPort: 9101
+      hostPort: 9101
+      protocol: TCP
+    volumeMounts:
+    - mountPath: /etc/stoperator/config.ini
+      name: stoperator-config
+    resources: {}
+    securityContext:
+      allowPrivilegeEscalation: false
+      capabilities: {}
+      privileged: false
+      readOnlyRootFilesystem: false
+      seLinuxOptions: {}
+  volumes:
+  - name: stoperator-config
+    hostPath:
+      path: /home/runner/work/stoperator/stoperator/test/config.ini
+      type: File
+status: {}
